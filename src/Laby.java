@@ -1,9 +1,9 @@
 import java.util.Random;
 
-public class Laby{
+public class Laby {
 
 	public static boolean debug = false;
-	
+
 	/**
 	 * Simple examples
 	 */
@@ -40,36 +40,37 @@ public class Laby{
 			cel = cel.getNeighbor(Cellule.WEST).getCell();
 		}
 		myGrid.showGrid();
-	
-		for (int i=0; i<4; i++) System.out.println();
 
-//		Laby.debug = true;
+		for (int i = 0; i < 4; i++)
+			System.out.println();
+
+		// Laby.debug = true;
 		myGrid = new Grid(40, 40);
 		myGrid.cell[0][0].breakWallWith(Cellule.WEST);
 		Random rand = new java.util.Random();
-//		rand.setSeed(0);	
-		for (int i=0;i<myGrid.rows; i++)
-			for (int j=0; j<myGrid.columns; j++)
-				myGrid.cell[i][j].breakWallWith(Math.abs(rand.nextInt()%6));
-		
+		// rand.setSeed(0);
+		for (int i = 0; i < myGrid.rows; i++)
+			for (int j = 0; j < myGrid.columns; j++)
+				myGrid.cell[i][j].breakWallWith(Math.abs(rand.nextInt() % 6));
+
 		myGrid.showGrid();
 	}
 
-//	
-//	public static void main(String[] args){
-//		HexGrid myHexGrid=new HexGrid(8,10);
-//
-//		
-//		
-//		/*test*/
-//		myHexGrid.print();
-//		System.out.println("-----------");
-//		myHexGrid.getCell(5).printNeighborhood();
-//		System.out.println("-----------");
-//		myHexGrid.getCell(1).printNeighborhood();
-//		System.out.println("-----------");
-//		myHexGrid.getCell(8).printNeighborhood();
-//		System.out.println("-----------");
-//	}
-//
+	//
+	// public static void main(String[] args){
+	// HexGrid myHexGrid=new HexGrid(8,10);
+	//
+	//
+	//
+	// /*test*/
+	// myHexGrid.print();
+	// System.out.println("-----------");
+	// myHexGrid.getCell(5).printNeighborhood();
+	// System.out.println("-----------");
+	// myHexGrid.getCell(1).printNeighborhood();
+	// System.out.println("-----------");
+	// myHexGrid.getCell(8).printNeighborhood();
+	// System.out.println("-----------");
+	// }
+	//
 }
