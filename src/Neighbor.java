@@ -14,15 +14,26 @@ public class Neighbor {
 	}
 
 	/* Get methods */
+	/**
+	 * get a cell
+	 * @return : a cell
+	 */
 	public Cellule getCell() {
 		return this.cell;
 	}
 
+	/**
+	 * If the wall exists or not
+	 * @return : wall value
+	 */
 	public Boolean isWall() {
 		return this.wall;
 	}
 
 	/* Modification methods */
+	/**
+	 * Remove a wall
+	 */
 	public void breakWall() {
 		this.wall = false;
 	}

@@ -2,6 +2,11 @@ public class Grid {
 	public final int rows, columns;
 	final Cellule[][] cell;
 
+	/**
+	 * Initialize the cells and set the neighbors
+	 * @param n : rows
+	 * @param m : columns
+	 */
 	public Grid(int n, int m) {
 		this.rows = n;
 		this.columns = m;

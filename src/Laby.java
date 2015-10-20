@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Laby {
@@ -54,6 +56,36 @@ public class Laby {
 				myGrid.cell[i][j].breakWallWith(Math.abs(rand.nextInt() % 6));
 
 		myGrid.showGrid();
+		LabyCellList lcl = new LabyCellList(myGrid);
+	}
+	
+	/**
+	 * 
+	 * @param rows
+	 * @param colums
+	 * @return
+	 */
+	public Grid makeLabyA(int rows, int colums){
+		Grid laby = new Grid(rows, colums);
+		LabyCellList lcl = new LabyCellList(laby);
+		
+		/*tant que il existe deux cellules non connectées faire*/
+		while(!lcl.isALaby()){
+			/*pour chaque cellule c dans un certain ordre faire*/
+			for (int i = 0 ; i<laby.rows ; ++i){
+				for (int j = 0 ; j<laby.columns ; ++j){
+					/*si il existe un voisin de c non connecté à c alors*/
+					List<Integer> possible = new ArrayList<Integer>();
+					for (int k = 0 ; k<6 ; ++k){
+						if (laby.cell[i][j].hasNeighbor(k)){
+							possible.add(k);
+						}
+					}
+					
+				}
+			}
+		}
+		return laby;
 	}
 
 	//
