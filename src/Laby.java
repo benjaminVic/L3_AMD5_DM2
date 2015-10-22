@@ -3,8 +3,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Laby {
-	
-	private Grid laby;
 
 	public static boolean debug = false;
 
@@ -67,8 +65,8 @@ public class Laby {
 	 * @param colums
 	 * @return
 	 */
-	public Grid makeLabyA(int rows, int colums) {
-		laby = new Grid(rows, colums);
+	public static Grid makeLabyA(int rows, int colums) {
+		Grid laby = new Grid(rows, colums);
 		LabyCellList lcl = new LabyCellList(laby);
 
 		/* tant que il existe deux cellules non connectées faire */
@@ -78,9 +76,10 @@ public class Laby {
 			for (int i = 0; i < laby.rows; ++i) {
 				for (int j = 0; j < laby.columns; ++j) {
 
-					/* si il existe un voisin de c non connecté à c alors 
-					 * on cree une liste des directions possibles 
-					 * contenant l'int des direction
+					/*
+					 * si il existe un voisin de c non connecté à c alors on
+					 * cree une liste des directions possibles contenant l'int
+					 * des direction
 					 */
 					List<Integer> possible = new ArrayList<Integer>();
 					for (int k = 0; k < 6; ++k) {
@@ -89,10 +88,8 @@ public class Laby {
 						}
 					}
 
-					// TODO VERIFY DOC OF RANDOM
 					Random r = new Random();
-
-					/* Si il reste des possibilités */
+					
 					do {
 						int randomValue = r.nextInt(possible.size());
 						int idCell = laby.cell[i][j].getId();
@@ -100,25 +97,25 @@ public class Laby {
 								.get(randomValue));
 
 						if (lcl.areNotLinked(idCell, idVoisin)) {
-							laby.cell[i][j].breakWallWith(randomValue);
+							laby.cell[i][j].breakWallWith(possible.get(randomValue));
 							lcl.unionFind(idCell, idVoisin);
+							break;
 						} else {
 							possible.remove(randomValue);
 						}
-					} while (possible.isEmpty());
-					
+					} while (possible.isEmpty() == false);
+
 				}
 			}
 		}
-		laby.cell[0][0].breakWallWith(laby.cell[0][0].WEST);
-		laby.cell[rows-1][colums-1].breakWallWith(laby.cell[rows-1][colums-1].EAST);
-		laby.showGrid(true);
 		
+		//Marks the entrance and exit of the labyrinth
+		laby.cell[0][0].breakWallWith(laby.cell[0][0].WEST);
+		laby.cell[rows - 1][colums - 1]
+				.breakWallWith(laby.cell[rows - 1][colums - 1].EAST);
+		laby.showGrid(true);
+
 		return laby;
-	}
-	
-	public Grid getGrid(){
-		return this.laby;
 	}
 
 	//

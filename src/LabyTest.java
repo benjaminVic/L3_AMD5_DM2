@@ -7,8 +7,7 @@ public class LabyTest {
 
 	@Test
 	public void test() {
-		Laby l = new Laby();
-		l.makeLabyA(3, 3);
+		Grid l = Laby.makeLabyA(5, 5);
 	}
 
 }
