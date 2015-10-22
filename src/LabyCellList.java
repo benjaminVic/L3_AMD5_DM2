@@ -3,7 +3,7 @@ import java.util.List;
 
 public class LabyCellList {
 	private List<List<Integer>> ensemblesDeCases;
-	private int sizeMax;
+	private final int sizeMax;
 	private final int firstId = 0;
 
 	/**
@@ -34,7 +34,17 @@ public class LabyCellList {
 				return i;
 			}
 		}
-		return (Integer) null;
+		return id;
+	}
+	
+	/**
+	 * Verify that the two cells are in different lists
+	 * @param id1 : first id to evaluate
+	 * @param id2 : second id to evaluate
+	 * @return : true if not in the same list
+	 */
+	public boolean areNotLinked(int id1, int id2){
+		return (find(id1) != find(id2));
 	}
 
 	/**
@@ -45,13 +55,13 @@ public class LabyCellList {
 	private void fusion(int list1, int list2) {
 		//stacks everything of the first line so that
 		//isALaby is quicker
-		if (ensemblesDeCases.get(list2).contains(firstId)) {
+		//if (ensemblesDeCases.get(list2).contains(firstId)) {
 			ensemblesDeCases.get(list2).addAll(ensemblesDeCases.get(list1));
 			ensemblesDeCases.remove(list1);
-		} else {
+		/*} else {
 			ensemblesDeCases.get(list1).addAll(ensemblesDeCases.get(list2));
 			ensemblesDeCases.remove(list2);
-		}
+		}*/
 	}
 
 	/**

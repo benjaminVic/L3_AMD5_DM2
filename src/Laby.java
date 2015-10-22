@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Laby {
+	
+	private Grid laby;
 
 	public static boolean debug = false;
 
@@ -58,34 +60,65 @@ public class Laby {
 		myGrid.showGrid();
 		LabyCellList lcl = new LabyCellList(myGrid);
 	}
-	
+
 	/**
 	 * 
 	 * @param rows
 	 * @param colums
 	 * @return
 	 */
-	public Grid makeLabyA(int rows, int colums){
-		Grid laby = new Grid(rows, colums);
+	public Grid makeLabyA(int rows, int colums) {
+		laby = new Grid(rows, colums);
 		LabyCellList lcl = new LabyCellList(laby);
-		
-		/*tant que il existe deux cellules non connectées faire*/
-		while(!lcl.isALaby()){
-			/*pour chaque cellule c dans un certain ordre faire*/
-			for (int i = 0 ; i<laby.rows ; ++i){
-				for (int j = 0 ; j<laby.columns ; ++j){
-					/*si il existe un voisin de c non connecté à c alors*/
+
+		/* tant que il existe deux cellules non connectées faire */
+		while (!lcl.isALaby()) {
+
+			/* pour chaque cellule c dans un certain ordre faire */
+			for (int i = 0; i < laby.rows; ++i) {
+				for (int j = 0; j < laby.columns; ++j) {
+
+					/* si il existe un voisin de c non connecté à c alors 
+					 * on cree une liste des directions possibles 
+					 * contenant l'int des direction
+					 */
 					List<Integer> possible = new ArrayList<Integer>();
-					for (int k = 0 ; k<6 ; ++k){
-						if (laby.cell[i][j].hasNeighbor(k)){
+					for (int k = 0; k < 6; ++k) {
+						if (laby.cell[i][j].hasNeighbor(k)) {
 							possible.add(k);
 						}
 					}
+
+					// TODO VERIFY DOC OF RANDOM
+					Random r = new Random();
+
+					/* Si il reste des possibilités */
+					do {
+						int randomValue = r.nextInt(possible.size());
+						int idCell = laby.cell[i][j].getId();
+						int idVoisin = laby.cell[i][j].getNeighborId(possible
+								.get(randomValue));
+
+						if (lcl.areNotLinked(idCell, idVoisin)) {
+							laby.cell[i][j].breakWallWith(randomValue);
+							lcl.unionFind(idCell, idVoisin);
+						} else {
+							possible.remove(randomValue);
+						}
+					} while (possible.isEmpty());
 					
 				}
 			}
 		}
+		laby.cell[0][0].breakWallWith(laby.cell[0][0].WEST);
+		laby.cell[rows-1][colums-1].breakWallWith(laby.cell[rows-1][colums-1].EAST);
+		laby.showGrid(true);
+		
 		return laby;
+	}
+	
+	public Grid getGrid(){
+		return this.laby;
 	}
 
 	//

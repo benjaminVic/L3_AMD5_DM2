@@ -51,7 +51,7 @@ public class Cellule {
 
 	/**
 	 * Break wall with a neighbor and the neighbor's wall too
-	 * @param i : Index of the neighbor
+	 * @param i : Direction of the neighbor
 	 */
 	public void breakWallWith(int i) {
 		if (this.hasNeighbor(i)) {
