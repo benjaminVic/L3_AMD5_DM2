@@ -49,10 +49,6 @@ public class Cellule {
 		this.neighbors[orientation] = new Neighbor(nbr);
 	}
 
-	/**
-	 * Break wall with a neighbor and the neighbor's wall too
-	 * @param i : Direction of the neighbor
-	 */
 	public void breakWallWith(int i) {
 		if (this.hasNeighbor(i)) {
 			this.neighbors[i].breakWall();

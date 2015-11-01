@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -60,10 +61,10 @@ public class Laby {
 	}
 
 	/**
-	 * 
-	 * @param rows
-	 * @param colums
-	 * @return
+	 * Create the laby with the "Algorithme 1"
+	 * @param rows : number of rows
+	 * @param colums : number of colums
+	 * @return : the constructed labyrinth
 	 */
 	public static Grid makeLabyA(int rows, int colums) {
 		Grid laby = new Grid(rows, colums);
@@ -75,47 +76,130 @@ public class Laby {
 			/* pour chaque cellule c dans un certain ordre faire */
 			for (int i = 0; i < laby.rows; ++i) {
 				for (int j = 0; j < laby.columns; ++j) {
-
 					/*
 					 * si il existe un voisin de c non connecté à c alors on
 					 * cree une liste des directions possibles contenant l'int
 					 * des direction
 					 */
-					List<Integer> possible = new ArrayList<Integer>();
-					for (int k = 0; k < 6; ++k) {
-						if (laby.cell[i][j].hasNeighbor(k)) {
-							possible.add(k);
-						}
-					}
+					List<Integer> possible = Laby.probabiltySpace(laby.cell[i][j]);
+					Cellule currentCell = laby.cell[i][j];
 
 					Random r = new Random();
+					int randomValue;
+					int idCell;					
+					int idVoisin;
 					
 					do {
-						int randomValue = r.nextInt(possible.size());
-						int idCell = laby.cell[i][j].getId();
-						int idVoisin = laby.cell[i][j].getNeighborId(possible
+						randomValue = r.nextInt(possible.size());
+						idCell = currentCell.getId();
+						idVoisin = currentCell.getNeighborId(possible
 								.get(randomValue));
 
 						if (lcl.areNotLinked(idCell, idVoisin)) {
-							laby.cell[i][j].breakWallWith(possible.get(randomValue));
+							currentCell.breakWallWith(possible.get(randomValue));
 							lcl.unionFind(idCell, idVoisin);
 							break;
 						} else {
 							possible.remove(randomValue);
 						}
 					} while (possible.isEmpty() == false);
+				}
+			}
+		}
+		setEntrenceExit(laby, rows, colums);	
+		return laby;
+	}
+	
+	/**
+	 * Brake the wall of the entrance and the exit of the laby
+	 * @param laby : Constructed labyrinth
+	 * @param rows:  number of rows
+	 * @param colums : number of colums
+	 */
+	private static void setEntrenceExit(Grid laby, int rows, int colums){
+		laby.cell[0][0].breakWallWith(laby.cell[0][0].WEST);
+		laby.cell[rows - 1][colums - 1]
+				.breakWallWith(laby.cell[rows - 1][colums - 1].EAST);
+	}
+	
+	/**
+	 * Verify the neighboring Cellules that can be visited
+	 * @param c : Cell from which we need the possible neighbors
+	 * @return : The list of possibilities
+	 */
+	private static ArrayList<Integer> probabiltySpace(Cellule c){
+		ArrayList<Integer> possible = new ArrayList<Integer>();
+		for (int k = 0; k < 6; ++k) {
+			if (c.hasNeighbor(k)) {
+				possible.add(k);
+			}
+		}
+		return possible;
+	}
+	
+	/**
+	 * Create the laby with the "Algorithme 2"
+	 * @param rows : number of rows
+	 * @param colums : number of colums
+	 * @return : the Grid of a laby
+	 */
+	public static Grid makeLaby(int rows, int colums){
+		Grid laby = new Grid(rows, colums);
+		LabyCellList lcl = new LabyCellList(laby);		
+		List<Integer> ordreAleatoire = randomGeneration(rows*colums);
+		for (int i : ordreAleatoire){
+			
+			for (Cellule[] cLine : laby.cell){
+				for (Cellule c : cLine){
+					if (c.getId() == i){
+						List<Integer> possible = Laby.probabiltySpace(c);
+						
+						Random r = new Random();
+						int randomValue;
+						int idCell;					
+						int idVoisin;
+						
+						do {
+							randomValue = r.nextInt(possible.size());
+							idCell = c.getId();
+							idVoisin = c.getNeighborId(possible
+									.get(randomValue));
 
+							if (lcl.areNotLinked(idCell, idVoisin)) {
+								c.breakWallWith(possible.get(randomValue));
+								lcl.unionFind(idCell, idVoisin);
+								break;
+							} else {
+								possible.remove(randomValue);
+							}
+						} while (possible.isEmpty() == false);
+					}
 				}
 			}
 		}
 		
-		//Marks the entrance and exit of the labyrinth
-		laby.cell[0][0].breakWallWith(laby.cell[0][0].WEST);
-		laby.cell[rows - 1][colums - 1]
-				.breakWallWith(laby.cell[rows - 1][colums - 1].EAST);
+		setEntrenceExit(laby, rows, colums);
 		laby.showGrid(true);
-
 		return laby;
+	}
+	
+	/**
+	 * Generate a shuffled table of ids
+	 * @param n : number of Cellule
+	 * @return : a table containing in a random order the cell ids
+	 */
+	public static ArrayList<Integer> randomGeneration(int n) {
+		ArrayList<Integer> listRand = new ArrayList<Integer>();
+		for (int i = 0; i < n; ++i) {
+			listRand.add(i);
+		}
+		Random r = new Random();
+		int j;
+		for (int i = 0; i < n; ++i) {
+			j = r.nextInt(listRand.size() - i) + i;
+			Collections.swap(listRand, i, j);
+		}
+		return listRand;
 	}
 
 	//
