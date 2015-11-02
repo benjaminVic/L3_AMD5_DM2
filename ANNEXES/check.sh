@@ -6,7 +6,7 @@ optional="bonus.xml"
 function die {
 	echo "______________"
 	printf "$2" >&2 && echo
-	echo "Rejected."
+	echo "$(tput setaf 1 2>/dev/null)Rejected.$(tput sgr0 2>/dev/null)"
 	echo "Please have a look on tp2.pdf"
 	exit $1
 }
@@ -31,20 +31,24 @@ echo && echo "------- Checking the archive"
 ftar="$1"
 #test presence of archive (error return: 2)
 [ -f "$ftar" ] ||\
-	die 2 "ERROR: '$ftar' file not found"
+	die 2 "$(tput setaf 1 2>/dev/null)ERROR:$(tput sgr0 2>/dev/null) '$ftar' file not found"
 
 #test name of archive (error return: 3)
+nameflag=false
 echo "$ftar" | egrep "^[-a-z]*_[-a-z]*.tar\$" >/dev/null
 if [ $? -eq 0 ]; then
-	echo "    Name '$ftar' seems to be well formed."
+	echo "    Name '$ftar' seems to be $(tput setaf 7 2>/dev/null)well formed$(tput sgr0 2>/dev/null)."
 else
-	die 3 "ERROR: the archive name is wrong.\n\texpected name: '<firstname>_<lastname>.tar'\n\twhere '<lastname>' and '<firstname>' have to be replaced by your own last and first name written in lower case without accent, space and apostrophe."
+	echo "    $(tput setaf 1 2>/dev/null)ERROR:$(tput sgr0 2>/dev/null) the archive name is wrong."
+	echo "        expected name: '<firstname>_<lastname>.tar'"
+	echo "        where '<lastname>' and '<firstname>' have to be replaced by your own last and first name written in lower case without accent, space and apostrophe."
+	nameflag=true
 fi
 
 #test validity of the archive (error return: 4)
 fin="$(tar tf "$ftar")"
 [ $? -ne 0 ] &&\
-	die 4 "Error: '$ftar' is not a valid archive."
+	die 4 "$(tput setaf 1 2>/dev/null)Error:$(tput sgr0 2>/dev/null) '$ftar' is not a valid archive."
 
 #test presence of expected files (error return: 5)
 echo && echo "------- Looking for expected files..."
@@ -52,10 +56,11 @@ expflag=false
 for i in $expected; do
 	echo "$fin" | egrep "^$i\$" >/dev/null
 	if [ $? -eq 0 ]; then
-		echo "    Found: '$i'"
+		echo "    $(tput setaf 7 2>/dev/null)FOUND:$(tput sgr0 2>/dev/null) '$i'"
+		fin="$(echo "$fin" | sed -e "/^${i//\//\\\/}\$/d")"
 	else
 		expflag=true
-		echo "    ERROR: '$i' not found!" >&2
+		echo "    $(tput setaf 1 2>/dev/null)ERROR:$(tput sgr0 2>/dev/null) '$i' not found!" >&2
 	fi
 done
 
@@ -65,10 +70,11 @@ optflag=false
 for i in $optional; do
 	echo "$fin" | egrep "^$i\$" >/dev/null
 	if [ $? -eq 0 ]; then
-		echo "    Found: '$i'"
+		echo "    $(tput setaf 7 2>/dev/null)FOUND:$(tput sgr0 2>/dev/null) '$i'"
+		fin="$(echo "$fin" | sed -e "/^${i//\//\\\/}\$/d")"
 	else
 		optflag=true
-		echo "    WARNING: '$i' not found!" >&2
+		echo "    $(tput setaf 3 2>/dev/null)WARNING:$(tput sgr0 2>/dev/null) '$i' not found!" >&2
 	fi
 done
 
@@ -76,20 +82,28 @@ done
 echo && echo "------- Looking for additional files..."
 addflag=false
 for i in $fin; do
-	if [[ "$i" =~ *.java ]]; then
+	if echo "$i" | egrep "^.*\.java" >/dev/null; then
 		echo "$expected" | egrep "^$i\$" >/dev/null ||\
 			echo "$optional" | egrep "^$i\$" >/dev/null
 		[ $? -ne 0 ] &&\
 			addflag=true &&\
-			echo "    Found: '$i'"
+			echo "    $(tput setaf 7 2>/dev/null)FOUND:$(tput sgr0 2>/dev/null) '$i'" &&
+			fin="$(echo "$fin" | sed -e "/^${i//\//\\\/}\$/d")"
 	fi
 done
 $addflag && echo "    That's all."
 $addflag || echo "    No additional file found."
 
-$expflag && die 5 "ERROR: Some required files are missing."
+#echo && echo "------- Looking for $(tput setaf 1 2>/dev/null)non-considered$(tput sgr0) files..."
+#if [[ -z "$fin" ]]; then
+#	echo "     No other files."
+#else
+#	echo "$fin" | sed -e "s/^/    $(tput setaf 1 2>/dev/null)NOT CONSIDERED:$(tput sgr0 2>/dev/null) /"
+#fi
+
+$expflag && die 5 "$(tput setaf 1 2>/dev/null)ERROR:$(tput sgr0 2>/dev/null) Some required files are missing."
+$nameflag && die 3 "$(tput setaf 1 2>/dev/null)ERROR:$(tput sgr0 2>/dev/null) The name of the archive is not valid."
 #accept archive and exit (return 0)
 echo "______________"
-echo "Accepted"
+echo "$(tput setaf 7 2>/dev/null)Accepted$(tput sgr0 2>/dev/null)"
 exit 0
-

@@ -1,4 +1,4 @@
-public class _Aux {
+public class Auxiliaire {
 	public static String numInThree(int n) {
 		if (n < 0) {
 			if (n > -10)

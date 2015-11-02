@@ -3,19 +3,34 @@
 
 	<!-- QUESTION BONUS 1 -->
 	<question num="1">
-
-
+	Dans le cas du parcours a) 
+	On sait	que en toute circonstance nous explorons une cellule non visitée .
+	On sait également que nous avons (nombreDeCellule-1) mur brisés	(on ne compte pas ici les mur d'entrée et de fin).
+	"choisir aléatoirement un voisin c' de c non connecté à c" nous permet d'affirmer que :
+	A un instant T chaque cellule a au moins un voisin auquelle elle n'est pas connectée.
+	Donc une seule itération de la boucle "tant que" est nécéssaire.
+	
+	Dans le cas du parcours b)
+	Il est possible que se forme des motifs "en spiral" résultant en une cellule centrale entourée
+	de cellules qui lui sont déjà connectées. Ce faisant il n'y aura pas assez de mur brisé pour former
+	un labyrinthe complet
+	En conséquence le nombre minimum d'itérations du parcours est de 2
 	</question>
 
 	<!-- QUESTION BONUS 2 -->
 	<question num="2">
+	Dans le cas du parcours a)
+	Au vu de la démonstration précédente une telle construction de labyrinthe rend impossible la
+	génération de motifs "en spirales" décrit précédement. 	
 
-
+	Dans le cas du parcours b)
+	Aucun labyrinthe ne peut pas être généré. aucune limitation de construction fixe n'existant il
+	existera forcement un cas viable.
 	</question>
 
 	<!-- QUESTION BONUS 3 -->
 	<question num="3">
-
+	Non : cela à été démontré précédement en question 1.
 
 	</question>
 

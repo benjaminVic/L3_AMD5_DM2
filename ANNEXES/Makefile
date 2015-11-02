@@ -2,6 +2,7 @@ JAVAC=javac
 SOURCES = $(wildcard *.java)
 CLASSES = $(SOURCES:.java=.class)
 MAIN = Laby
+CHECK = Check
 JVM = java
 
 all: $(CLASSES)
@@ -14,3 +15,6 @@ clean :
 
 run: $(MAIN).class
 	$(JVM) $(MAIN)
+
+check: $(CHECK).class
+	$(JVM) $(CHECK)	

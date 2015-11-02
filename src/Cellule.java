@@ -53,8 +53,6 @@ public class Cellule {
 		if (this.hasNeighbor(i)) {
 			this.neighbors[i].breakWall();
 			this.neighbors[i].getCell().neighbors[neighborTo(i)].breakWall();
-		} else if (Laby.debug) {
-			System.err.println("No such neighbor");
 		}
 	}
 
@@ -62,17 +60,17 @@ public class Cellule {
 	public void printNeighborhood() {
 		System.out.println("     / \\ / \\");
 		System.out.println("    |"
-				+ _Aux.numInThree(this.getNeighborId(Cellule.NORTHEAST)) + "|"
-				+ _Aux.numInThree(this.getNeighborId(Cellule.NORTHWEST)) + "|");
+				+ Auxiliaire.numInThree(this.getNeighborId(Cellule.NORTHEAST)) + "|"
+				+ Auxiliaire.numInThree(this.getNeighborId(Cellule.NORTHWEST)) + "|");
 		System.out.println("   / \\ / \\ / \\");
 		System.out.println("  |"
-				+ _Aux.numInThree(this.getNeighborId(Cellule.WEST)) + "|"
-				+ _Aux.numInThree(this.getId()) + "|"
-				+ _Aux.numInThree(this.getNeighborId(Cellule.EAST)) + "|");
+				+ Auxiliaire.numInThree(this.getNeighborId(Cellule.WEST)) + "|"
+				+ Auxiliaire.numInThree(this.getId()) + "|"
+				+ Auxiliaire.numInThree(this.getNeighborId(Cellule.EAST)) + "|");
 		System.out.println("   \\ / \\ / \\ /");
 		System.out.println("    |"
-				+ _Aux.numInThree(this.getNeighborId(Cellule.SOUTHEAST)) + "|"
-				+ _Aux.numInThree(this.getNeighborId(Cellule.SOUTHWEST)) + "|");
+				+ Auxiliaire.numInThree(this.getNeighborId(Cellule.SOUTHEAST)) + "|"
+				+ Auxiliaire.numInThree(this.getNeighborId(Cellule.SOUTHWEST)) + "|");
 		System.out.println("     \\ / \\ /");
 	}
 }

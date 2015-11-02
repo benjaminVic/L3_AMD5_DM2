@@ -81,7 +81,7 @@ public class Grid {
 
 	public String showContent(boolean show, int i, int j) {
 		if (show)
-			return _Aux.numInThree(this.cell[i][j].getId());
+			return Auxiliaire.numInThree(this.cell[i][j].getId());
 		else
 			return "   ";
 	}

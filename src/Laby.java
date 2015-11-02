@@ -5,13 +5,11 @@ import java.util.Random;
 
 public class Laby {
 
-	public static boolean debug = false;
-
 	/**
-	 * Simple examples
+	 * Legacy code
 	 */
 	public static void main(String[] args) {
-		Grid myGrid = new Grid(30, 10);
+		/*Grid myGrid = new Grid(30, 10);
 		Cellule cel = myGrid.cell[0][0];
 		while (cel.hasNeighbor(Cellule.SOUTHEAST)) {
 			cel.breakWallWith(Cellule.SOUTHEAST);
@@ -57,7 +55,7 @@ public class Laby {
 				myGrid.cell[i][j].breakWallWith(Math.abs(rand.nextInt() % 6));
 
 		myGrid.showGrid();
-		LabyCellList lcl = new LabyCellList(myGrid);
+		LabyCellList lcl = new LabyCellList(myGrid);*/
 	}
 
 	/**
@@ -201,22 +199,4 @@ public class Laby {
 		}
 		return listRand;
 	}
-
-	//
-	// public static void main(String[] args){
-	// HexGrid myHexGrid=new HexGrid(8,10);
-	//
-	//
-	//
-	// /*test*/
-	// myHexGrid.print();
-	// System.out.println("-----------");
-	// myHexGrid.getCell(5).printNeighborhood();
-	// System.out.println("-----------");
-	// myHexGrid.getCell(1).printNeighborhood();
-	// System.out.println("-----------");
-	// myHexGrid.getCell(8).printNeighborhood();
-	// System.out.println("-----------");
-	// }
-	//
 }
